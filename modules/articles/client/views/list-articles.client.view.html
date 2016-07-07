@@ -1,0 +1,72 @@
+<section data-ng-controller="ArticlesController" data-ng-init="find()">
+  <link rel="stylesheet" href="modules/articles/estilos/book.css" media="screen" title="no title" charset="utf-8">
+  <div class="container">
+    <div class="page-header">
+      <h2>Libros</h2>
+    </div>
+
+    <div class="alert alert-warning text-center" data-ng-if="articles.$resolved && !articles.length">
+      No hay libros guardados a&uacute;n. <a data-ui-sref="articles.busqueda">Busca tu favorito</a>!
+    </div>
+
+    <ul class="align">
+      <li ng-repeat="article in articles">
+        <figure class='book'>
+          <!-- Front -->
+          <ul class='hardcover_front'>
+            <li>
+              <div class="coverDesign blue">
+                <image src='{{article.gbook.imageLinks.thumbnail}}' width="100%" height="100%"></image>
+              </div>
+            </li>
+            <li></li>
+          </ul>
+          <!-- Pages -->
+          <ul class='page'>
+            <li></li>
+            <li>
+              <a data-ui-sref="articles.view({articleId: article._id})" class="btnDown">M&aacute;s Info</a>
+            </li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <!-- Back -->
+          <ul class='hardcover_back'>
+            <li></li>
+            <li></li>
+          </ul>
+          <ul class='book_spine'>
+            <li></li>
+            <li></li>
+          </ul>
+          <figcaption>
+            <h3>{{article.title}}</h3>
+            Precio: <span>${{article.precio}}</span>
+            <div ng-if="verificarUsuario(article.users, authentication.user)==false">
+              <div ng-if="article.users.length == 1"><h3><small><em>Un usuario calific&oacute; este libro</em></small></h3></div>
+              <div ng-if="article.users.length > 1"><h3><small><em>{{article.users.length}} usuarios calificaron este libro</em></small></h3></div>
+
+              <button role="button" ng-click="calificar(article, 'gusto', authentication.user)" title="Me gust&oacute;: {{article.gusto}}" ng-model="article.gusto"><img src="/modules/articles/img/like.png" border="0" width="40" height="40"></button>
+              <button role="button" ng-click="calificar(article, 'no_gusto', authentication.user)" title="No me gust&oacute;: {{article.no_gusto}}" ng-model="article.no_gusto"><img src="/modules/articles/img/dislike.png" border="0" width="40" height="40"></button>
+              <button role="button" ng-click="calificar(article, 'aburrido', authentication.user)" title="Me aburri&oacute;: {{article.aburrido}}" ng-model="article.aburrido"><img src="/modules/articles/img/aburrido.png" border="0" width="40" height="40"></button>
+              <button role="button" ng-click="calificar(article, 'interesa', authentication.user)" title="Me interesa: {{article.interesa}}" ng-model="article.interesa"><img src="/modules/articles/img/me_interesa.png" border="0" width="40" height="40"></button>
+              <button role="button" ng-click="calificar(article, 'no_interesa', authentication.user)" title="No me interesa: {{article.no_interesa}}" ng-model="article.no_interesa"><img src="/modules/articles/img/no_interesa.png" border="0" width="40" height="40"></button>
+            </div>
+            <div ng-if="verificarUsuario(article.users, authentication.user)==true">
+              <div ng-if="article.users.length == 1"><h3><small><em>Calificaste este libro</em></small></h3></div>
+              <div ng-if="article.users.length == 2"><h3><small><em>Vos y otro usuario calificaron este libro</em></small></h3></div>
+              <div ng-if="article.users.length > 2"><h3><small><em>Vos y otros {{article.users.length -1}} usuarios calificaron este libro</em></small></h3></div>
+
+              <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="Me gust&oacute;: {{article.gusto}}" ng-model="article.gusto"><img src="/modules/articles/img/like.png" border="0" width="40" height="40"></button>
+              <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="No me gust&oacute;: {{article.no_gusto}}" ng-model="article.no_gusto"><img src="/modules/articles/img/dislike.png" border="0" width="40" height="40"></button>
+              <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="Me aburri&oacute;: {{article.aburrido}}" ng-model="article.aburrido"><img src="/modules/articles/img/aburrido.png" border="0" width="40" height="40"></button>
+              <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="Me interesa: {{article.interesa}}" ng-model="article.interesa"><img src="/modules/articles/img/me_interesa.png" border="0" width="40" height="40"></button>
+              <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="No me interesa: {{article.no_interesa}}" ng-model="article.no_interesa"><img src="/modules/articles/img/no_interesa.png" border="0" width="40" height="40"></button>
+            </div>
+          </figcaption>
+        </figure>
+      </li>
+    </ul>
+  </div>
+</section>

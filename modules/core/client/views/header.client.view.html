@@ -1,0 +1,57 @@
+<div class="container" data-ng-controller="HeaderController">
+  <div class="navbar-header">
+
+    <img class="navbar-toggle boton" data-ng-click="toggleCollapsibleMenu()" src="modules/core/img/logo-3-azulclaro.png" style="margin-top:10px; width:70px; height:30px;"/>
+    
+    <!--<button class="navbar-brand hidden-xs hidden-sm navbar-inverse" data-ui-sref="home"><img src="modules/core/img/logo-3-azulclaro.png" style="width:70px; height:30px;" /></button>
+    <img src="modules/core/img/logo-3-azulclaro.png" data-ui-sref="home" style="margin-top:10px; width:70px; height:30px;"/>-->
+  </div>
+
+  <nav class="collapse navbar-collapse" collapse="!isCollapsed" role="navigation">
+    <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
+      <li><a data-ui-sref="home" class="smoothScroll">Portada</a></li>
+      <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.type" data-ng-class="{ active: $state.includes(item.state), dropdown: item.type === 'dropdown' }" class="{{item.class}}" dropdown="item.type === 'dropdown'">
+        <a ng-switch-when="dropdown" class="dropdown-toggle" dropdown-toggle role="button">{{::item.title}}&nbsp;<span class="caret"></span></a>
+        <ul ng-switch-when="dropdown" class="dropdown-menu">
+          <li data-ng-repeat="subitem in item.items | orderBy: 'position'" data-ng-if="subitem.shouldRender(authentication.user);" data-ui-sref-active="active">
+            <a data-ui-sref="{{subitem.state}}" data-ng-bind="subitem.title"></a>
+          </li>
+        </ul>
+        <a ng-switch-default data-ui-sref="{{item.state}}" data-ng-bind="item.title"></a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" data-ng-hide="authentication.user">
+      <li><a data-ui-sref="home" class="smoothScroll">Portada</a></li>
+      <li data-ui-sref-active="active">
+        <a data-ui-sref="authentication.signup">Registrarse</a>
+      </li>
+      <li class="divider-vertical"></li>
+      <li data-ui-sref-active="active">
+        <a data-ui-sref="authentication.signin">Ingresar</a>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" data-ng-show="authentication.user">
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle user-header-dropdown-toggle" dropdown-toggle role="button">
+          <img data-ng-src="{{authentication.user.profileImageURL}}" alt="{{authentication.user.displayName}}" class="header-profile-image" />
+          <span data-ng-bind="authentication.user.displayName"></span> <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+          <li data-ui-sref-active="active">
+            <a data-ui-sref="settings.profile">Cambiar tu Perfil</a>
+          </li>
+          <li data-ui-sref-active="active">
+            <a data-ui-sref="settings.picture">Actualizar Foto de Perfil</a>
+          </li>
+          <li data-ui-sref-active="active" data-ng-show="authentication.user.provider === 'local'">
+            <a data-ui-sref="settings.password">Cambiar contrase&ntilde;a</a>
+          </li>
+          <li class="divider"></li>
+          <li>
+            <a href="/api/auth/signout" target="_self">Salir</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>

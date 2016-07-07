@@ -1,0 +1,83 @@
+<section  data-ng-controller="ArticlesController">
+	<link rel="stylesheet" href="modules/articles/estilos/book.css" media="screen" title="no title" charset="utf-8">
+		<div class="container">
+			<div>
+				<br />
+				<br />
+				<div class="row">
+					<form data-ng-submit="buscarPorTitulo()">
+						<div class="col-lg-6 col-md-offset-3">
+					    <div class="input-group">
+					      <input type="text" class="form-control" ng-model="titulo" placeholder="Buscar por t&iacute;tulo...">
+					      <span class="input-group-btn">
+					        <button class="btn btn-primary" type="button" ng-click="buscarPorTitulo()">Buscar!</button>
+					      </span>
+					    </div><!-- /input-group -->
+					  </div><!-- /.col-lg-6 -->
+					</form>
+				</div><!-- /.row -->
+				<br>
+				<div data-ng-if="buscando">
+					<img src="modules/core/img/loaders/loader.gif" alt="" />
+				</div>
+			  <ul class="align">
+				  <li data-ng-repeat="article in articles">
+						<figure class='book'>
+							<!-- Front -->
+							<ul class='hardcover_front'>
+								<li>
+									<div class="coverDesign blue">
+										<img src='{{article.gbook.imageLinks.thumbnail}}' width="100%" height="100%">
+									</div>
+								</li>
+								<li></li>
+							</ul>
+							<!-- Pages -->
+							<ul class='page'>
+								<li></li>
+								<li>
+									<a class="btnDown" href="#">M&aacute;s info</a>
+								</li>
+								<li></li>
+								<li></li>
+								<li></li>
+							</ul>
+							<!-- Back -->
+							<ul class='hardcover_back'>
+								<li></li>
+								<li></li>
+							</ul>
+							<ul class='book_spine'>
+								<li></li>
+								<li></li>
+							</ul>
+							<figcaption>
+								<h3>{{article.title}}</h3>
+								Precio: <span>$ {{article.precio}}</span>
+								<br>
+								<!--ISBN: <span> {{article.gbook.isbn}}</span>-->
+								<p ng-if="verificarUsuario(article.users, authentication.user)==false">
+		                <button role="button" ng-click="createLibro(article, 'gusto', authentication.user)" title="Me gust&oacute;: {{article.gusto}}" ng-model="article.gusto"><img src="/modules/articles/img/like.png" border="0" width="40" height="40"></button>
+		                <button role="button" ng-click="createLibro(article, 'no_gusto', authentication.user)" title="No me gust&oacute;: {{article.no_gusto}}" ng-model="article.no_gusto"><img src="/modules/articles/img/dislike.png" border="0" width="40" height="40"></button>
+		                <button role="button" ng-click="createLibro(article, 'aburrido, authentication.user')" title="Me aburri&oacute;: {{article.aburrido}}" ng-model="article.aburrido"><img src="/modules/articles/img/aburrido.png" border="0" width="40" height="40"></button>
+		                <button role="button" ng-click="createLibro(article, 'interesa', authentication.user)" title="Me interesa: {{article.interesa}}" ng-model="article.interesa"><img src="/modules/articles/img/me_interesa.png" border="0" width="40" height="40"></button>
+		                <button role="button" ng-click="createLibro(article, 'no_interesa', authentication.user)" title="No me interesa: {{article.no_interesa}}" ng-model="article.no_interesa"><img src="/modules/articles/img/no_interesa.png" border="0" width="40" height="40"></button>
+										<!--<div data-ng-show="success" class="text-center text-success">
+						          <strong>Calificaste este libro!</strong>
+						        </div>-->
+		            </p>
+		            <p ng-if="verificarUsuario(article.users, authentication.user)==true">
+		                <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="Me gust&oacute;: {{article.gusto}}" ng-model="article.gusto"><img src="/modules/articles/img/like.png" border="0" width="40" height="40"></button>
+		                <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="No me gust&oacute;: {{article.no_gusto}}" ng-model="article.no_gusto"><img src="/modules/articles/img/dislike.png" border="0" width="40" height="40"></button>
+		                <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="Me aburri&oacute;: {{article.aburrido}}" ng-model="article.aburrido"><img src="/modules/articles/img/aburrido.png" border="0" width="40" height="40"></button>
+		                <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="Me interesa: {{article.interesa}}" ng-model="article.interesa"><img src="/modules/articles/img/me_interesa.png" border="0" width="40" height="40"></button>
+		                <button role="button" class="btn-margen btn btn-primary btn-xs disabled" title="No me interesa: {{article.no_interesa}}" ng-model="article.no_interesa"><img src="/modules/articles/img/no_interesa.png" border="0" width="40" height="40"></button>
+										<!--strong>Calificaste este libro!</strong-->
+		            </p>
+							</figcaption>
+						</figure>
+					</li>
+			  </ul>
+			</div>
+		</div><!-- /container -->
+</section>
